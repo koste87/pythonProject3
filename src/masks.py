@@ -1,4 +1,5 @@
-# Функция маскировки номера банковской карты
+# src/masks.py
+
 def get_mask_card_number(card_number: int) -> str:
     """
     Маскирует номер банковской карты, оставляя видимыми первые 6 и последние 4 цифры.
@@ -10,10 +11,14 @@ def get_mask_card_number(card_number: int) -> str:
         str: Замаскированный номер карты в формате 'XXXX XX** **** XXXX'.
     """
     card_str = str(card_number)
+    if len(card_str) <= 10:  # Изменяем на <= для более явной проверки
+        raise ValueError("Номер карты слишком короткий для маскирования.")
     return f"{card_str[:4]} {card_str[4:6]}** **** {card_str[-4:]}"
 
 
 # Функция маскировки номера банковского счета
+# src/masks.py
+
 def get_mask_account(account_number: int) -> str:
     """
     Маскирует номер банковского счета, оставляя видимыми только последние 4 цифры.
@@ -24,10 +29,7 @@ def get_mask_account(account_number: int) -> str:
     Returns:
         str: Замаскированный номер счета в формате '**XXXX'.
     """
+    if not isinstance(account_number, int):
+        raise TypeError("Номер счета должен быть числом.")
     account_str = str(account_number)
     return f"**{account_str[-4:]}"
-
-
-# Пример использования функций
-print(get_mask_card_number(7000792289606361))  # Вывод: 7000 79** **** 6361
-print(get_mask_account(73654108430135874305))  # Вывод: **4305

@@ -1,11 +1,19 @@
-# decorators/log_decorator.py
-
 import functools
 import logging
 import datetime
 
 
 def log(filename=None):
+    """
+    Декоратор для логирования вызова функции.
+
+    Параметры:
+    filename (str, optional): Имя файла для записи логов. Если не указано, логи выводятся в консоль.
+
+    Возвращает:
+    function: Обёртка, которая логирует вызов функции.
+    """
+
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):

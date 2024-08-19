@@ -2,18 +2,32 @@ import json
 from typing import List, Dict, Any
 
 
-def read_json(filepath: str) -> List[Dict[str, Any]]:
-    """
-    Читает JSON-файл и возвращает список словарей с данными о транзакциях.
+import logging
 
-    :param filepath: Путь до файла JSON.
-    :return: Список словарей с данными о транзакциях. Если файл не найден или формат неправильный, возвращает пустой список.
+def create_logger(log_file_path):
     """
-    try:
-        with open(filepath, 'r') as file:
-            data = json.load(file)
-            if isinstance(data, list):
-                return data
-            return []
-    except (FileNotFoundError, json.JSONDecodeError):
-        return []
+    Функция для создания логгера, который будет записывать сообщения в файл.
+
+    :param log_file_path: Путь к файлу, в который будет записываться лог.
+    :return: Объект логгера.
+    """
+    # Создаем объект логгера
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+
+    # Создаем файловый обработчик
+    file_handler = logging.FileHandler(log_file_path)
+    file_handler.setLevel(logging.INFO)
+
+    # Форматируем сообщение
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    file_handler.setFormatter(formatter)
+
+    # Добавляем файловый обработчик к логгеру
+    logger.addHandler(file_handler)
+
+    return logger
+
+# Пример использования
+logger = create_logger('logs/my_app.log')
+logger.info('Пример сообщения, которое будет записано в файл лога.')

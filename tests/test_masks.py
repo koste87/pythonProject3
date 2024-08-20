@@ -1,35 +1,23 @@
 import pytest
-from src.masks import get_mask_card_number, get_mask_account
 
-@pytest.mark.parametrize("input_card_number, expected_masked_number", [
-    (1234567890123456, "1234 56** **** 3456"),
-    (9876543210987654, "9876 54** **** 7654"),
-])
-def test_get_mask_card_number(input_card_number, expected_masked_number):
-    assert get_mask_card_number(input_card_number) == expected_masked_number
+from src.widget import get_date, mask_account_card
 
-@pytest.mark.parametrize("input_card_number", [
-    1234,  # слишком короткий номер карты
-    987654321,  # слишком короткий номер карты (9 цифр)
-    9876543210,  # слишком короткий номер карты (10 цифр)
-])
-def test_get_mask_card_number_invalid_input(input_card_number):
-    with pytest.raises(ValueError):
-        get_mask_card_number(input_card_number)
 
-@pytest.mark.parametrize("input_account_number, expected_masked_account", [
-    (1234567890123456, "**3456"),
-    (9876543210987654, "**7654"),
-    (1234, "**1234"),
-    (9876543210, "**3210"),
-])
-def test_get_mask_account(input_account_number, expected_masked_account):
-    assert get_mask_account(input_account_number) == expected_masked_account
+@pytest.mark.parametrize(
+    "string, expected_result",
+    [
+        ("MasterCard 7158300734726758", "MasterCard 7158 30** **** 6758"),
+        ("Счет 12345678901234567890", "Счет **7890"),
+    ],
+)
+def test_mask_account_card(string, expected_result):
+    assert mask_account_card(string) == expected_result
 
-@pytest.mark.parametrize("input_account_number", [
-    "invalid_input",  # строка вместо числа
-    None,  # None вместо числа
-])
-def test_get_mask_account_invalid_input(input_account_number):
-    with pytest.raises(TypeError):
-        get_mask_account(input_account_number)
+
+@pytest.fixture
+def date() -> str:
+    return "2018-07-11T02:26:18.671407"
+
+
+def test_get_data(date: str) -> str:
+    assert get_date(date) == "11.07.2018"

@@ -1,41 +1,23 @@
-# generators.py
-
-from typing import List, Dict, Iterator, Any
+from typing import Any
 
 
-def filter_by_currency(transactions: List[Dict[str, Any]], currency_code: str) -> Iterator[Dict[str, Any]]:
-    """
-    Фильтрует банковские операции по заданной валюте.
-
-    :param transactions: Список словарей с банковскими операциями
-    :param currency_code: Строка, обозначающая валюту (например, 'USD')
-    :return: Итератор с операциями в заданной валюте
-    """
+def filter_by_currency(transactions: dict, currency: str) -> Any:
+    """Функция возвращаtn итератор с операциями в заданной валюте."""
     for transaction in transactions:
-        if transaction['operationAmount']['currency']['code'] == currency_code:
+        if transaction["operationAmount"]["currency"]["code"] == currency:
             yield transaction
 
 
-def transaction_descriptions(transactions: List[Dict[str, Any]]) -> Iterator[str]:
-    """
-    Возвращает описания всех банковских операций.
-
-    :param transactions: Список словарей с банковскими операциями
-    :return: Итератор с описаниями операций
-    """
+def transaction_descriptions(transactions: dict) -> Any:
+    """Функция принимает список словарей и возвращает описание каждой операции по очереди"""
     for transaction in transactions:
-        yield transaction['description']
+        yield transaction.get("descriptions")
 
 
-def card_number_generator(start: int, stop: int) -> Iterator[str]:
-    """
-    Генератор, возвращающий номера карт в формате "XXXX XXXX XXXX XXXX".
-
-    :param start: Начальное значение для генерации номеров
-    :param stop: Конечное значение для генерации номеров
-    :return: Итератор строк с номерами карт в формате "XXXX XXXX XXXX XXXX"
-    """
-    for i in range(start, stop + 1):
-        card_number = f"{i:016}"
-        formatted_number = f"{card_number[:4]} {card_number[4:8]} {card_number[8:12]} {card_number[12:]}"
-        yield formatted_number
+def card_number_generator(start, finish) -> str:
+    """генератор номеров банковских карт"""
+    for i in range(start, finish + 1):
+        empty_str = "000000000000000"
+        str_sum = empty_str + str(i)
+        card_number = f"{str_sum[:4]} {str_sum[4:8]} {str_sum[8:12]} {str_sum[12:]}"
+        yield card_number

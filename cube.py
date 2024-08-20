@@ -2,7 +2,7 @@ from ursina import *
 
 app = Ursina()
 
-player = Entity(model="cube", color=color.orange, scale_y=2)
+player = Entity(model="cube", color=color.red, scale_y=2)
 
 def update():
     player.y += held_keys["w"] * .1

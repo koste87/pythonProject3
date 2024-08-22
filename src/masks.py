@@ -1,35 +1,31 @@
-# src/masks.py
+import logging
 
-def get_mask_card_number(card_number: int) -> str:
-    """
-    Маскирует номер банковской карты, оставляя видимыми первые 6 и последние 4 цифры.
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s: %(filename)s: %(levelname)s: %(message)s",
+    filename="../logs/masks.log",
+    # filename='masks.log',
+    filemode="w",
+)
+auth_logger = logging.getLogger("app.auth")
+# logging.basicConfig(
+#     logger = logging.getLogger(__name__)
+#     file_handler = logging.FileHandler('masks.log')
+#     file_formatter = "%(asctime)s: %(filename)s: %(levelname)s: %(message)s",
+#     file_handler.setFormatter(file_formatter)
+#     logger.addHandler(file_handler)
+#     logger.setLevel(logging.INFO)
+# )
 
-    Args:
-        card_number (int): Номер банковской карты.
 
-    Returns:
-        str: Замаскированный номер карты в формате 'XXXX XX** **** XXXX'.
-    """
-    card_str = str(card_number)
-    if len(card_str) <= 10:  # Изменяем на <= для более явной проверки
-        raise ValueError("Номер карты слишком короткий для маскирования.")
-    return f"{card_str[:4]} {card_str[4:6]}** **** {card_str[-4:]}"
+def get_mask_card_number(card_number: str) -> str:
+    """Функция маскировки номера карты."""
+    auth_logger.info(f"Маска карты{card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}")
+    return f"{card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}"
 
 
-# Функция маскировки номера банковского счета
-# src/masks.py
-
-def get_mask_account(account_number: int) -> str:
-    """
-    Маскирует номер банковского счета, оставляя видимыми только последние 4 цифры.
-
-    Args:
-        account_number (int): Номер банковского счета.
-
-    Returns:
-        str: Замаскированный номер счета в формате '**XXXX'.
-    """
-    if not isinstance(account_number, int):
-        raise TypeError("Номер счета должен быть числом.")
-    account_str = str(account_number)
-    return f"**{account_str[-4:]}"
+def get_mask_account(macc_number: str) -> str:
+    """Функция маскировки номера счета."""
+    mask_account = "**" + macc_number[-4:]
+    auth_logger.info(f"Маска счета{mask_account}")
+    return mask_account

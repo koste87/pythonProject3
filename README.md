@@ -1,1 +1,137 @@
-# "Виджитских банковских операций" Программа для фильтрации и сортировки банковских счетов по дате и сказке. ## Зависимости проекта: * Программа использует версию Python 3.12.4 * flake8="7.1.0" * black="24.4.2" * isort="5.13.2" * mypy="1.10.0" ## функции , который мы будем использовать в этой версии кода: * функция скрывающая номер карты и счета * функция сортировки по дате * функция фильтрации в операциях по счетам * функция фильтрации по операциям с валютой * функция описания операции по счету * функция фильтрации по операциям с польтой * функция формирования счетов * функция получения информацй с помощью JSON-файла * функция получения информац с помощью Excel-файла * функция получения информац с помощью CSV-файла * функция получения значения в «USD», «EUR» преобразование через API и возврат в рублиях # # Структура проекта Добавление функций обновления через pytest для запуска тестов и нового функционала ## Функции, которые мы будем использовать в этой версии кода: ## Тесты проекта: тестовое покрытие кода проекта ---------- покрытие: платформа win32, python 3.12.4-final-0 ----------- Отсутствуют операторы файла, исключено покрытие src\__init__.py 0 0 100% src\ decorators.py 13 0 100% src\external_api.py 18 0 100% src\generators.py 14 2 86% 13-14 src\masks.py 10 0 100% src\processing.py 12 0 100% src\utils. py 32 12 62% 32-35, 45-48, 53-56 src\widget.py 13 0 100% тесты\__init__.py 0 0 100% тесты\conftest.py 8 0 100% тестов\test_decorators.py 15 0 100% тестов\test_external_api.py 26 0 100% тестов\test_filter_by_currency.py 26 0 100% тестов\test_masks.py 10 0 100% тестов\test_processing.py 7 0 100% тестов \test_utils.py 21 1 95% 10 тестов\test_widget.py 8 0 100% -------------------------------- -------------------------------- ИТОГО 233 15 94% # Инструкция по установке [Что скачать репозиторий:]( #1 ) Затем вам необходимо установить основные параметры для запуска проекта в вашей системе: ```pip install -r require.txt``` Подождите, пока наборы данных загрузятся, это может занять некоторое время
+# Обработчик Финансовых Транзакций
+
+Этот проект обрабатывает финансовые транзакции, читая данные из различных форматов, маскирует конфиденциальную информацию и ведет журнал действий и ошибок. Проект включает функциональность для чтения данных из JSON, CSV и Excel файлов, маскировки номеров карт и счетов, а также ведение логов.
+
+## Структура Проекта
+
+.
+├── data
+│ ├── 123.py
+│ ├── init.py
+│ ├── operations.json
+│ ├── transactions.csv
+│ └── transactions_excel.xlsx
+├── decorators
+│ └── init.py
+├── src
+│ ├── init.py
+│ ├── decorators.py
+│ ├── external_api.py
+│ ├── filter_by_word.py
+│ ├── generators.py
+│ ├── main.py
+│ ├── masks.py
+│ ├── processing.py
+│ ├── utils.py
+│ └── widget.py
+└── logs
+├── masks.log
+└── utils.log
+
+
+## Особенности
+
+- **Чтение Транзакций**:
+  - Загрузка транзакций из файлов JSON, CSV и Excel.
+  
+- **Маскирование Данных**:
+  - Маскировка номеров кредитных карт.
+  - Маскировка номеров счетов.
+
+- **Логирование**:
+  - Логи для модулей `utils` и `masks` сохраняются в директории `logs`.
+  - Включает метки времени, имена модулей, уровни серьезности и сообщения.
+
+## Настройка
+
+### Требования
+
+- Python 3.x
+- Необходимые библиотеки: `pandas`, `json`, `csv`, `logging`
+
+Установите необходимые библиотеки с помощью:
+
+```bash
+pip install pandas
+Структура Директории
+Структура директорий должна быть следующей:
+
+.
+├── data
+│   ├── 123.py
+│   ├── __init__.py
+│   ├── operations.json
+│   ├── transactions.csv
+│   └── transactions_excel.xlsx
+├── decorators
+│   └── __init__.py
+├── src
+│   ├── __init__.py
+│   ├── decorators.py
+│   ├── external_api.py
+│   ├── filter_by_word.py
+│   ├── generators.py
+│   ├── main.py
+│   ├── masks.py
+│   ├── processing.py
+│   ├── utils.py
+│   └── widget.py
+└── logs
+    ├── masks.log
+    └── utils.log
+Модули
+src/utils.py
+Содержит функции для чтения транзакций:
+
+get_transactions_dictionary(path: str) -> dict: Читает JSON-файл и возвращает данные о транзакциях в виде словаря.
+get_transactions_dictionary_csv(csv_path: str) -> list[dict]: Читает CSV-файл и возвращает данные о транзакциях в виде списка словарей.
+get_transactions_dictionary_excel(excel_path: str) -> list[dict]: Читает Excel-файл и возвращает данные о транзакциях в виде списка словарей.
+src/masks.py
+Содержит функции для маскировки конфиденциальной информации:
+
+get_mask_card_number(card_number: str) -> str: Маскирует номер кредитной карты.
+get_mask_account(macc_number: str) -> str: Маскирует номер счета.
+Логирование
+Логирование настроено для модулей utils и masks. Логи сохраняются в директории logs. Настройки логирования включают:
+
+Отдельные логгеры для utils и masks.
+Логи сохраняются в директории logs с расширением .log.
+Формат записи логов включает метку времени, имя модуля, уровень серьезности и сообщение.
+Логи перезаписываются при каждом запуске.
+Пример Настройки Логирования
+import logging
+
+# Настройка логирования для модуля utils
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s: %(filename)s: %(levelname)s: %(message)s",
+    filename="logs/utils.log",
+    filemode="w",
+)
+utils_logger = logging.getLogger("app.utils")
+
+# Настройка логирования для модуля masks
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s: %(filename)s: %(levelname)s: %(message)s",
+    filename="logs/masks.log",
+    filemode="w",
+)
+masks_logger = logging.getLogger("app.masks")
+Использование
+Для использования функций и логгеров:
+
+from src.utils import get_transactions_dictionary, get_transactions_dictionary_csv, get_transactions_dictionary_excel
+from src.masks import get_mask_card_number, get_mask_account
+
+# Пример использования
+transactions_json = get_transactions_dictionary("data/operations.json")
+transactions_csv = get_transactions_dictionary_csv("data/transactions.csv")
+transactions_excel = get_transactions_dictionary_excel("data/transactions_excel.xlsx")
+
+masked_card = get_mask_card_number("1234567812345678")
+masked_account = get_mask_account("1234567890123456")
+Тестирование
+Юнит-тесты предоставлены для проверки функциональности. Запустите тесты с помощью:
+
+pytest

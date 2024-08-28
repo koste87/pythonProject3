@@ -1,28 +1,33 @@
-from typing import List, Dict, Any
+from typing import Any
 
-def filter_by_state(data: List[Dict[str, Any]], state: str = 'EXECUTED') -> List[Dict[str, Any]]:
+operations = [
+    {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+    {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
+    {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+    {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
+]
+
+
+def filter_by_state(operations: list[dict[str, Any]], state: str = "EXECUTED") -> list[dict]:
     """
-    Filters a list of dictionaries by the specified state.
-
-    Args:
-        data (list): List of dictionaries.
-        state (str): State to filter by (default is 'EXECUTED').
-
-    Returns:
-        list: Filtered list of dictionaries.
+    Функция принимает список словарей и опционально значение для ключа
+    state и возвращает новый список словарей, содержащий только те словари, у которых ключ
+    state соответствует указанному значению.
     """
-    return [entry for entry in data if entry.get('state') == state]
+    filtered_operations = []
+    for key in operations:
+        if key.get("state") == state:
+            filtered_operations.append(key)
+    return filtered_operations
 
 
-def sort_by_date(data: List[Dict[str, Any]], reverse: bool = True) -> List[Dict[str, Any]]:
+def sort_by_date(operations: list[dict], reverse: bool = True) -> list[dict]:
     """
-    Sorts a list of dictionaries by the 'date' key.
-
-    Args:
-        data (list): List of dictionaries.
-        reverse (bool): Sort in descending order if True (default is True).
-
-    Returns:
-        list: Sorted list of dictionaries.
+    Функция принимает на вход список словарей и возвращает новый список, в котором исходные
+    словари отсортированы по убыванию даты
     """
-    return sorted(data, key=lambda x: x['date'], reverse=reverse)
+    operations = sorted(operations, key=lambda new_list_of_dict: new_list_of_dict["date"], reverse=reverse)
+    return operations
+
+
+print(filter_by_state(operations))
